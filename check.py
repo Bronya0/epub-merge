@@ -7,7 +7,7 @@ import requests
 
 GITHUB_URL = "https://github.com/Bronya0/epub-merge"
 UPDATE_URL = "https://api.github.com/repos/Bronya0/epub-merge/releases/latest"
-BASEDIR = os.path.dirname(os.path.dirname(__file__))
+BASEDIR = os.path.dirname(__file__)
 
 def close_dlg(e):
     e.page.dialog.open = False
