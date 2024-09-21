@@ -1,0 +1,50 @@
+# https://docs.github.com/zh/actions/using-jobs/choosing-the-runner-for-a-job
+name: build-xxx
+
+on:
+  release:
+    types: [ created ]
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+
+
+    # 步骤合集
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Normalise version tag
+      id: normalise_version
+      shell: bash
+      run: |
+        version=$(echo ${{ github.event.release.tag_name }} | sed -e 's/v//g')
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        echo -n ${{ github.event.release.tag_name }} > assets/version.txt
+        
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        flet pack main.py -i assets/icon.ico -n epub-merge-v${{ steps.normalise_version.outputs.version }} --distpath dist/epub-merge --add-data=assets/*:assets --product-name epub-merge
+        
+        copy README.md dist/epub-merge/
+        copy LICENSE dist/epub-merge/
+        Compress-Archive -Path ./dist/epub-merge -DestinationPath dist.zip -CompressionLevel Optimal
+
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist.zip
+        asset_name: epub-merge-v${{ steps.normalise_version.outputs.version }}-windows.zip # 替换成适当的版本和平台标记
+        asset_content_type: application/octet-stream # 对于.exe文件，可以是application/octet-stream

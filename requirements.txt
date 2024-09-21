@@ -1,0 +1,4 @@
+flet==0.24.1
+pyinstaller
+EbookLib~=0.18
+lxml~=5.3.0
