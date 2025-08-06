@@ -8,6 +8,13 @@
 
 最近看番有点上瘾，偶尔还会去找原著小说去看看，不过日本那边轻小说是不是都是epub格式的，一个章节一个epub文件，太多了，手机看着不太方便
 
+
+### 现在推荐直接使用在线网站，算法经过了大幅重构设计。只有网络拥堵的情况下才手动下载。
+- 网址：[https://epub.ysboke.cn/](https://epub.ysboke.cn/)
+<img width="1359" height="913" alt="局部截取_20250807_015116" src="https://github.com/user-attachments/assets/660eab1a-3377-4459-99fc-2d47a16550b1" />
+
+
+
 于是就写了个软件，可以直接把多个epub合并成一个文件，看着方便许多，现在开源给大家。
 
 <!-- truncate -->
